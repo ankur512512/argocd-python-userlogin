@@ -1,0 +1,28 @@
+{{- if .Values.deployment.backend.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "argocd-python-userlogin.fullname" . }}
+  labels:
+    {{- include "argocd-python-userlogin.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "argocd-python-userlogin.fullname" . }}
+  minReplicas: {{ .Values.deployment.backend.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.deployment.backend.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.deployment.backend.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.deployment.backend.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.deployment.backend.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.deployment.backend.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
