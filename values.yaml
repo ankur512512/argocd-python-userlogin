@@ -1,70 +1,35 @@
-# Default values for argocd-python-userlogin.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-
 deployment:
   backend:
     replicaCount: 1
     image:
       repository: ankur512512/python-fastapi-userlogin
       pullPolicy: IfNotPresent
-      # Overrides the image tag whose default is the chart appVersion.
-      tag: "af034ea0fd330b32e875f5ce90c296681ff0713d"
+      tag: 1d104f1819027c78e1186d5467c9311d2be9f754
     imagePullSecrets: []
     podAnnotations: {}
     podSecurityContext: {}
-      # fsGroup: 2000
     securityContext: {}
-      # capabilities:
-      #   drop:
-      #   - ALL
-      # readOnlyRootFilesystem: true
-      # runAsNonRoot: true
-      # runAsUser: 1000
     resources: {}
-      # We usually recommend not to specify default resources and to leave this as a conscious
-      # choice for the user. This also increases chances charts run on environments with little
-      # resources, such as Minikube. If you do want to specify resources, uncomment the following
-      # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-      # limits:
-      #   cpu: 100m
-      #   memory: 128Mi
-      # requests:
-      #   cpu: 100m
-      #   memory: 128Mi
     autoscaling:
       enabled: false
       minReplicas: 1
       maxReplicas: 100
       targetCPUUtilizationPercentage: 80
-      # targetMemoryUtilizationPercentage: 80
     nodeSelector: {}
     tolerations: []
     affinity: {}
-
-
-nameOverride: ""
-fullnameOverride: "pythonwebapp"
-
+nameOverride: ''
+fullnameOverride: pythonwebapp
 serviceAccount:
-  # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-
-
+  name: ''
 service:
   type: ClusterIP
   port: 80
-
 ingress:
   enabled: true
-  className: "nginx"
+  className: nginx
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
@@ -73,6 +38,6 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls:
-   - secretName: akpythonauth-webhop-me
-     hosts:
-       - akpythonauth.webhop.me
+    - secretName: akpythonauth-webhop-me
+      hosts:
+        - akpythonauth.webhop.me
