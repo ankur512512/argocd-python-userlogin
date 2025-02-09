@@ -4,7 +4,7 @@ deployment:
     image:
       repository: ankur512512/python-fastapi-userlogin
       pullPolicy: IfNotPresent
-      tag: e5e44589b4192af9fbe18d8d99b3933b84f4c24b
+      tag: 1457cb6ee5e584e7d6555af8b2fb9495c9325e56
     imagePullSecrets: []
     podAnnotations: {}
     podSecurityContext: {}
