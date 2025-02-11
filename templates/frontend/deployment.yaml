@@ -37,7 +37,7 @@ spec:
           image: "{{ .Values.deployment.frontend.image.repository }}:{{ .Values.deployment.frontend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.deployment.frontend.image.pullPolicy }}
           env:
-            name: VITE_BACKEND_URL
+          - name: VITE_BACKEND_URL
             value: 'http://backend-{{ include "argocd-python-userlogin.fullname" . }}:{{ .Values.service.backend.port }}'
           ports:
             - name: http

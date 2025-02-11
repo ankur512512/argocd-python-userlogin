@@ -37,7 +37,7 @@ spec:
           image: "{{ .Values.deployment.db.image.repository }}:{{ .Values.deployment.db.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.deployment.db.image.pullPolicy }}
           env:
-            name: ALLOW_EMPTY_PASSWORD
+          - name: ALLOW_EMPTY_PASSWORD
             value: yes
           ports:
             - name: http
