@@ -38,7 +38,7 @@ spec:
           imagePullPolicy: {{ .Values.deployment.db.image.pullPolicy }}
           env:
           - name: ALLOW_EMPTY_PASSWORD
-            value: yes
+            value: "yes"
           ports:
             - name: http
               containerPort: 5432
