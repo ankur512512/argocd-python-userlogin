@@ -2,9 +2,47 @@ deployment:
   backend:
     replicaCount: 1
     image:
-      repository: ankur512512/python-fastapi-userlogin
+      repository: ankur512512/python-fastapi-backend
       pullPolicy: IfNotPresent
-      tag: 1457cb6ee5e584e7d6555af8b2fb9495c9325e56
+      tag: latest
+    imagePullSecrets: []
+    podAnnotations: {}
+    podSecurityContext: {}
+    securityContext: {}
+    resources: {}
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+  db:
+    replicaCount: 1
+    image:
+      repository: bitnami/postgresql
+      pullPolicy: IfNotPresent
+      tag: 17.2.0
+    imagePullSecrets: []
+    podAnnotations: {}
+    podSecurityContext: {}
+    securityContext: {}
+    resources: {}
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+  frontend:
+    replicaCount: 1
+    image:
+      repository: ankur512512/python-fastapi-frontend
+      pullPolicy: IfNotPresent
+      tag: latest
     imagePullSecrets: []
     podAnnotations: {}
     podSecurityContext: {}
@@ -25,8 +63,15 @@ serviceAccount:
   annotations: {}
   name: ''
 service:
-  type: ClusterIP
-  port: 80
+  backend:
+    type: ClusterIP
+    port: 8080
+  db:
+    type: ClusterIP
+    port: 5432
+  frontend:
+    type: ClusterIP
+    port: 5173
 ingress:
   enabled: true
   className: nginx

@@ -1,47 +1,47 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-{{ include "argocd-python-userlogin.fullname" . }}
+  name: frontend-{{ include "argocd-python-userlogin.fullname" . }}
   labels:
     {{- include "argocd-python-userlogin.labels" . | nindent 4 }}
-    app: backend
+    app: frontend
 spec:
-  {{- if not .Values.deployment.backend.autoscaling.enabled }}
-  replicas: {{ .Values.deployment.backend.replicaCount }}
+  {{- if not .Values.deployment.frontend.autoscaling.enabled }}
+  replicas: {{ .Values.deployment.frontend.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "argocd-python-userlogin.selectorLabels" . | nindent 6 }}
-      app: backend
+      app: frontend
   template:
     metadata:
-      {{- with .Values.deployment.backend.podAnnotations }}
+      {{- with .Values.deployment.frontend.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         {{- include "argocd-python-userlogin.selectorLabels" . | nindent 8 }}
-        app: backend
+        app: frontend
     spec:
-      {{- with .Values.deployment.backend.imagePullSecrets }}
+      {{- with .Values.deployment.frontend.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "argocd-python-userlogin.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.deployment.backend.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.deployment.frontend.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.deployment.backend.securityContext | nindent 12 }}
-          image: "{{ .Values.deployment.backend.image.repository }}:{{ .Values.deployment.backend.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.deployment.backend.image.pullPolicy }}
+            {{- toYaml .Values.deployment.frontend.securityContext | nindent 12 }}
+          image: "{{ .Values.deployment.frontend.image.repository }}:{{ .Values.deployment.frontend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.deployment.frontend.image.pullPolicy }}
           env:
-          - name: FRONTEND_URL
-            value: 'http://frontend-{{ include "argocd-python-userlogin.fullname" . }}:{{ .Values.service.frontend.port }}'
+            name: VITE_BACKEND_URL
+            value: 'http://backend-{{ include "argocd-python-userlogin.fullname" . }}:{{ .Values.service.backend.port }}'
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 5173
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -52,16 +52,16 @@ spec:
               path: /
               port: http
           resources:
-            {{- toYaml .Values.deployment.backend.resources | nindent 12 }}
-      {{- with .Values.deployment.backend.nodeSelector }}
+            {{- toYaml .Values.deployment.frontend.resources | nindent 12 }}
+      {{- with .Values.deployment.frontend.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.deployment.backend.affinity }}
+      {{- with .Values.deployment.frontend.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.deployment.backend.tolerations }}
+      {{- with .Values.deployment.frontend.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

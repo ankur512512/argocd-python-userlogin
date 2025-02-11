@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-{{ include "argocd-python-userlogin.fullname" . }}
+  name: db-{{ include "argocd-python-userlogin.fullname" . }}
   labels:
     {{- include "argocd-python-userlogin.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.backend.type }}
+  type: {{ .Values.service.db.type }}
   ports:
-    - port: {{ .Values.service.backend.port }}
+    - port: {{ .Values.service.db.port }}
       targetPort: http
       protocol: TCP
       name: http
   selector:
     {{- include "argocd-python-userlogin.selectorLabels" . | nindent 4 }}
-    app: backend
+    app: db

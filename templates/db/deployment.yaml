@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-{{ include "argocd-python-userlogin.fullname" . }}
+  labels:
+    {{- include "argocd-python-userlogin.labels" . | nindent 4 }}
+    app: db
+spec:
+  {{- if not .Values.deployment.db.autoscaling.enabled }}
+  replicas: {{ .Values.deployment.db.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "argocd-python-userlogin.selectorLabels" . | nindent 6 }}
+      app: db
+  template:
+    metadata:
+      {{- with .Values.deployment.db.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "argocd-python-userlogin.selectorLabels" . | nindent 8 }}
+        app: db
+    spec:
+      {{- with .Values.deployment.db.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "argocd-python-userlogin.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.deployment.db.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.deployment.db.securityContext | nindent 12 }}
+          image: "{{ .Values.deployment.db.image.repository }}:{{ .Values.deployment.db.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.deployment.db.image.pullPolicy }}
+          env:
+            name: ALLOW_EMPTY_PASSWORD
+            value: yes
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - bash
+              - -c
+              - "pg_isready -U postgres"
+          readinessProbe:
+            exec:
+              command:
+              - bash
+              - -c
+              - "pg_isready -U postgres"
+          resources:
+            {{- toYaml .Values.deployment.db.resources | nindent 12 }}
+      {{- with .Values.deployment.db.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.deployment.db.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.deployment.db.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
