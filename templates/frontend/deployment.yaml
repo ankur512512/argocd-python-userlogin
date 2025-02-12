@@ -38,7 +38,7 @@ spec:
           imagePullPolicy: {{ .Values.deployment.frontend.image.pullPolicy }}
           env:
           - name: VITE_BACKEND_URL
-            value: 'http://backend-{{ include "argocd-python-userlogin.fullname" . }}:{{ .Values.service.backend.port }}'
+            value: /api
           ports:
             - name: http
               containerPort: 5173
