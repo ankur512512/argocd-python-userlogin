@@ -22,7 +22,7 @@ deployment:
     replicaCount: 1
     image:
       repository: bitnami/postgresql
-      pullPolicy: Always
+      pullPolicy: IfNotPresent
       tag: 17.2.0
     imagePullSecrets: []
     podAnnotations: {}
