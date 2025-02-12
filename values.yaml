@@ -4,7 +4,7 @@ deployment:
     image:
       repository: ankur512512/python-fastapi-backend
       pullPolicy: Always
-      tag: 76f9e17a4a8fc5c8019b3d1837dbdc966656aa58
+      tag: 62592c6417eba371c48402ef95b6cfe098c2b4fa
     imagePullSecrets: []
     podAnnotations: {}
     podSecurityContext: {}
@@ -42,7 +42,7 @@ deployment:
     image:
       repository: ankur512512/python-fastapi-frontend
       pullPolicy: Always
-      tag: 76f9e17a4a8fc5c8019b3d1837dbdc966656aa58
+      tag: 62592c6417eba371c48402ef95b6cfe098c2b4fa
     imagePullSecrets: []
     podAnnotations: {}
     podSecurityContext: {}
