@@ -4,7 +4,7 @@ deployment:
     image:
       repository: ankur512512/python-fastapi-backend
       pullPolicy: Always
-      tag: latest
+      tag: 76f9e17a4a8fc5c8019b3d1837dbdc966656aa58
     imagePullSecrets: []
     podAnnotations: {}
     podSecurityContext: {}
@@ -42,7 +42,7 @@ deployment:
     image:
       repository: ankur512512/python-fastapi-frontend
       pullPolicy: Always
-      tag: latest
+      tag: 76f9e17a4a8fc5c8019b3d1837dbdc966656aa58
     imagePullSecrets: []
     podAnnotations: {}
     podSecurityContext: {}
@@ -72,13 +72,12 @@ service:
   frontend:
     type: ClusterIP
     port: 5173
-
 ingress:
   enabled: true
   hosts:
     host: akpythonauth.webhop.me
   ingressClassName: nginx
-  annotations:
+  annotations: null
   tls:
     enabled: true
     secretName: akpythonauth-webhop-me
