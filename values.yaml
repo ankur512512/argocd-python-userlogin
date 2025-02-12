@@ -3,7 +3,7 @@ deployment:
     replicaCount: 1
     image:
       repository: ankur512512/python-fastapi-backend
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       tag: latest
     imagePullSecrets: []
     podAnnotations: {}
@@ -22,7 +22,7 @@ deployment:
     replicaCount: 1
     image:
       repository: bitnami/postgresql
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       tag: 17.2.0
     imagePullSecrets: []
     podAnnotations: {}
@@ -41,7 +41,7 @@ deployment:
     replicaCount: 1
     image:
       repository: ankur512512/python-fastapi-frontend
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
       tag: latest
     imagePullSecrets: []
     podAnnotations: {}
