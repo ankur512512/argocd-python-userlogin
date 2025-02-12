@@ -94,7 +94,6 @@ ingress:
     host: akpythonauth.webhop.me
   ingressClassName: nginx
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
   tls:
     enabled: true
     secretName: akpythonauth-webhop-me
