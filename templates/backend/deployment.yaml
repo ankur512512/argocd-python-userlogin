@@ -49,10 +49,16 @@ spec:
             httpGet:
               path: /health/liveness
               port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /health/readiness
               port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             {{- toYaml .Values.deployment.backend.resources | nindent 12 }}
       {{- with .Values.deployment.backend.nodeSelector }}

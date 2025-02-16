@@ -49,12 +49,18 @@ spec:
               - bash
               - -c
               - "pg_isready -U postgres"
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
           readinessProbe:
             exec:
               command:
               - bash
               - -c
               - "pg_isready -U postgres"
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             {{- toYaml .Values.deployment.db.resources | nindent 12 }}
       {{- with .Values.deployment.db.nodeSelector }}
