@@ -10,7 +10,7 @@ spec:
     - port: {{ .Values.service.db.port }}
       targetPort: http
       protocol: TCP
-      name: http
+      name: tcp
   selector:
     {{- include "argocd-python-userlogin.selectorLabels" . | nindent 4 }}
     app: db
